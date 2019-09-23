@@ -1,8 +1,11 @@
 package com.globant.userinfoservice.repository;
 
 import com.globant.userinfoservice.model.User;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
-public interface UserRepository {
+@Repository
+public interface UserRepository extends CrudRepository<User, Integer> {
 
-    User findUserById(int userId);
+  User findUserByUserId(int userId);
 }

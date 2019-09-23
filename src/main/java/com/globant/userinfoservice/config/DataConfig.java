@@ -21,70 +21,70 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * @author Daniel dvago1988@gmail.com
  */
 @Configuration
-@EnableJpaRepositories(basePackages = "com.danielvargas.users.repository")
+@EnableJpaRepositories(basePackages = "com.globant.userinfoservice.repository")
 @PropertySource("application.properties")
 @EnableTransactionManagement
 public class DataConfig {
 
-    /**
-     * Field representing the environment in which the current application is running.
-     */
-    private final Environment enviroment;
+  /**
+   * Field representing the environment in which the current application is running.
+   */
+  private final Environment enviroment;
 
-    /**
-     * Constructor use to autowired beans.
-     *
-     * @param enviroment representing the environment in which the current application is running.
-     */
-    @Autowired
-    public DataConfig(Environment enviroment) {
-        this.enviroment = enviroment;
-    }
+  /**
+   * Constructor use to autowired beans.
+   *
+   * @param enviroment representing the environment in which the current application is running.
+   */
+  @Autowired
+  public DataConfig(Environment enviroment) {
+    this.enviroment = enviroment;
+  }
 
-    /**
-     * Hibernate needs a bean named entityManagerFactory in order to  manage all the entities, this methods configures that.
-     *
-     * @return A factory bean of enteties.
-     */
-    @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
-        LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
-        HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-        factoryBean.setDataSource(dataSource());
-        factoryBean.setJpaVendorAdapter(vendorAdapter);
-        factoryBean.setPackagesToScan(enviroment.getProperty("users.entity.package"));
-        factoryBean.setJpaProperties(getHibernateProperties());
-        return factoryBean;
-    }
+  /**
+   * Hibernate needs a bean named entityManagerFactory in order to  manage all the entities, this methods configures that.
+   *
+   * @return A factory bean of enteties.
+   */
+  @Bean
+  public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+    LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
+    HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+    factoryBean.setDataSource(dataSource());
+    factoryBean.setJpaVendorAdapter(vendorAdapter);
+    factoryBean.setPackagesToScan(enviroment.getProperty("users.entity.package"));
+    factoryBean.setJpaProperties(getHibernateProperties());
+    return factoryBean;
+  }
 
-    /**
-     * Get hibernate properties for the enviroment. This can be done or we can create a hibernate.cfg.xml file (or hibernate.properties) with the configurations.
-     *
-     * @return hibernate properties.
-     */
-    private Properties getHibernateProperties() {
-        Properties properties = new Properties();
-        properties.put("hibernate.dialect", Objects.requireNonNull(enviroment.getProperty("hibernate.dialect")));
-        properties.put("hibernate.implicit_naming_strategy", Objects.requireNonNull(enviroment.getProperty("hibernate.implicit_naming_strategy")));
-        properties.put("hibernate.format_sql", Objects.requireNonNull(enviroment.getProperty("hibernate.format_sql")));
-        properties.put("hibernate.show_sql", Objects.requireNonNull(enviroment.getProperty("hibernate.show_sql")));
-        properties.put("hibernate.hbm2ddl.auto", Objects.requireNonNull(enviroment.getProperty("hibernate.hbm2ddl.auto")));
-        properties.put("hibernate.jdbc.lob.non_contextual_creation", Objects.requireNonNull(enviroment.getProperty("hibernate.jdbc.lob.non_contextual_creation")));
-        return properties;
-    }
+  /**
+   * Get hibernate properties for the enviroment. This can be done or we can create a hibernate.cfg.xml file (or hibernate.properties) with the configurations.
+   *
+   * @return hibernate properties.
+   */
+  private Properties getHibernateProperties() {
+    Properties properties = new Properties();
+    properties.put("hibernate.dialect", Objects.requireNonNull(enviroment.getProperty("hibernate.dialect")));
+    properties.put("hibernate.implicit_naming_strategy", Objects.requireNonNull(enviroment.getProperty("hibernate.implicit_naming_strategy")));
+    properties.put("hibernate.format_sql", Objects.requireNonNull(enviroment.getProperty("hibernate.format_sql")));
+    properties.put("hibernate.show_sql", Objects.requireNonNull(enviroment.getProperty("hibernate.show_sql")));
+    properties.put("hibernate.hbm2ddl.auto", Objects.requireNonNull(enviroment.getProperty("hibernate.hbm2ddl.auto")));
+    properties.put("hibernate.jdbc.lob.non_contextual_creation", Objects.requireNonNull(enviroment.getProperty("hibernate.jdbc.lob.non_contextual_creation")));
+    return properties;
+  }
 
-    /**
-     * Set the data source of the proyect.
-     *
-     * @return data source object.
-     */
-    @Bean
-    public DataSource dataSource() {
-        BasicDataSource dataSource = new BasicDataSource();
-        dataSource.setDriverClassName(enviroment.getProperty("users.ds.driver"));
-        dataSource.setUrl(enviroment.getProperty("users.datasource.url"));
-        dataSource.setUsername(enviroment.getProperty("users.datasource.username"));
-        dataSource.setPassword(enviroment.getProperty("users.datasource.password"));
-        return dataSource;
-    }
+  /**
+   * Set the data source of the proyect.
+   *
+   * @return data source object.
+   */
+  @Bean
+  public DataSource dataSource() {
+    BasicDataSource dataSource = new BasicDataSource();
+    dataSource.setDriverClassName(enviroment.getProperty("users.ds.driver"));
+    dataSource.setUrl(enviroment.getProperty("users.datasource.url"));
+    dataSource.setUsername(enviroment.getProperty("users.datasource.username"));
+    dataSource.setPassword(enviroment.getProperty("users.datasource.password"));
+    return dataSource;
+  }
 }
